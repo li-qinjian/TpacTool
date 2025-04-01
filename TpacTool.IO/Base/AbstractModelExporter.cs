@@ -108,7 +108,7 @@ namespace TpacTool.IO
 							textures.Add(tex);
 					}
 				}
-				if (SupportsSecondMaterial && mesh.Material.TryGetItem(out var mat2))
+				if (SupportsSecondMaterial && mesh.SecondMaterial.TryGetItem(out var mat2))
 				{
 					materials.Add(mat2);
 					foreach (var texDep in mat2.Textures.Values)
