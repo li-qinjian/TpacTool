@@ -93,10 +93,11 @@ namespace TpacTool.IO
                         parmStr += "\r\n\t\tShearingStiffness: " + mesh.ClothingMaterial.ShearingStiffness.ToString();
                         parmStr += "\r\n\t\tStretchingStiffness: " + mesh.ClothingMaterial.StretchingStiffness.ToString();
                         parmStr += "\r\n\t\tAnchorStiffness: " + mesh.ClothingMaterial.AnchorStiffness.ToString();
-                        parmStr += "\r\n\t\tGravity: " + mesh.ClothingMaterial.Gravity.ToString();
+                        parmStr += "\r\n\t\tDamping: " + mesh.ClothingMaterial.Damping.ToString();
                         parmStr += "\r\n\t\tLinearInertia: " + mesh.ClothingMaterial.LinearInertia.ToString();
                         parmStr += "\r\n\t\tAirDragMultiplier: " + mesh.ClothingMaterial.AirDragMultiplier.ToString();
                         parmStr += "\r\n\t\tWind: " + mesh.ClothingMaterial.Wind.ToString();
+                        parmStr += "\r\n\t\tGravity: " + mesh.ClothingMaterial.Gravity.ToString();
                         parmStr += "\r\n\t\tMaxLinearVelocity: " + mesh.ClothingMaterial.MaxLinearVelocity.ToString();
                         parmStr += "\r\n\t\tLinearVelocityMultiplier: " + mesh.ClothingMaterial.LinearVelocityMultiplier.ToString();
                     }
@@ -154,7 +155,19 @@ namespace TpacTool.IO
                             parmStr += "\t";
                         }
                     }
-                    parmStr += "\r\n";
+                    if (validMaterial.Textures.Count > 0)
+                    {
+                        parmStr += "\r\nTextures: \r\n\t";
+                        foreach (var texDep in validMaterial.Textures.Values)
+                        {
+                            if (texDep.TryGetItem(out var tex) && tex.HasPixelData)
+                            {
+                                parmStr += tex.Name;
+                                parmStr += "\r\n\t";
+                            }
+                        }
+                    }
+                    parmStr += "\r\n************************************";
                 }
             }
 
