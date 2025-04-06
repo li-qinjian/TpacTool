@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Shapes;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Ookii.Dialogs.Wpf;
@@ -210,23 +212,42 @@ namespace TpacTool
 		{
 			if (Asset == null || !IsExportable)
 				return;
-			if (_saveFilesDialog.ShowDialog().GetValueOrDefault(false))
+
+            MaterialExporter.MaterialExportOption option = 0;
+            switch (PreferredFormat)
+            {
+                case 1:
+                    option |= MaterialExporter.MaterialExportOption.PreferPng;
+                    break;
+                case 2:
+                    option |= MaterialExporter.MaterialExportOption.PreferDds;
+                    break;
+				default:
+					break;
+            }
+
+            string strWorkDir = Settings.Default.getCurrentWorkDir();
+            DirectoryInfo exportDir = new DirectoryInfo(strWorkDir + "\\..\\AssetSources");
+            if (!exportDir.Exists)
 			{
-				var path = _saveFilesDialog.SelectedPath;
-				MaterialExporter.MaterialExportOption option = 0;
-				switch (PreferredFormat)
-				{
-					case 1:
-						option |= MaterialExporter.MaterialExportOption.PreferPng;
-						break;
-					case 2:
-						option |= MaterialExporter.MaterialExportOption.PreferDds;
-						break;
-				}
-				MessengerInstance.Send(string.Format("Export {0} ...", Asset.Name), MainViewModel.StatusEvent);
-				MaterialExporter.ExportToFolder(path, Asset, option);
-				MessengerInstance.Send(string.Format("{0} exported", Asset.Name), MainViewModel.StatusEvent);
-			}
+                if (_saveFilesDialog.ShowDialog().GetValueOrDefault(false))
+                {
+                    var path = _saveFilesDialog.SelectedPath;
+
+                    MessengerInstance.Send(string.Format("Export {0} ...", Asset.Name), MainViewModel.StatusEvent);
+                    MaterialExporter.ExportToFolder(path, Asset, option);
+                    MessengerInstance.Send(string.Format("{0} exported", Asset.Name), MainViewModel.StatusEvent);
+                }
+            }
+			else
+			{
+                //DirectoryInfo exportDir = curWorkDir.CreateSubdirectory(Asset.Name);
+                var path = exportDir + "\\" + Asset.Name;
+
+                MessengerInstance.Send(string.Format("Export {0} ...", Asset.Name), MainViewModel.StatusEvent);
+                MaterialExporter.ExportToFolder(path, Asset, option);
+                MessengerInstance.Send(string.Format("{0} exported", Asset.Name), MainViewModel.StatusEvent);
+            }
 		}
 
 		public class TextureSlotItem
