@@ -102,18 +102,21 @@ namespace TpacTool.Lib
 			}
 
 			if (this.Items.Count > 0)
-				exportItemNamesToCSV();
+				exportMeshNamesToCSV();
 		}
 
 		private static HashSet<string> tempStrs = new HashSet<string>();
 
-        private void exportItemNamesToCSV()
+        private void exportMeshNamesToCSV()
         {
             string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
             string s = "";
 			//s += this.Items.Count.ToString();
             foreach (var assetItem in this.Items)
             {
+				if (assetItem.Type != Metamesh.TYPE_GUID)
+					continue;
+
                 s += assetItem.Name;
                 s += "\r\n";
             }

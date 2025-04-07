@@ -406,8 +406,8 @@ namespace TpacTool
             else
             {
                 string assetName = Asset.Name;
-                assetName = RemoveSuffix(assetName, "converted");
-                assetName = RemoveSuffix(assetName, "converted_slim");
+                assetName = RemoveSuffix(assetName, "_converted");
+                assetName = RemoveSuffix(assetName, "_converted_slim");
                 if (assetName != Asset.Name)
                 {
                     // do not export textures
@@ -417,6 +417,8 @@ namespace TpacTool
                         option ^= ModelExporter.ModelExportOption.ExportTexturesSubFolder;
                     else if (option.HasFlag(ModelExporter.ModelExportOption.ExportDiffuseOnly))
                         option ^= ModelExporter.ModelExportOption.ExportDiffuseOnly;
+                    if (option.HasFlag(ModelExporter.ModelExportOption.ExportParams))
+                        option ^= ModelExporter.ModelExportOption.ExportParams;
                 }
 
                 DirectoryInfo exportDir = curWorkDir.CreateSubdirectory(assetName);
