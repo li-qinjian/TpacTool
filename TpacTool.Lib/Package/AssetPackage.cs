@@ -100,9 +100,26 @@ namespace TpacTool.Lib
 			{
 				// TODO:
 			}
+
+			if (this.Items.Count > 0)
+				exportItemNamesToCSV();
 		}
 
 		private static HashSet<string> tempStrs = new HashSet<string>();
+
+        private void exportItemNamesToCSV()
+        {
+            string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
+            string s = "";
+			//s += this.Items.Count.ToString();
+            foreach (var assetItem in this.Items)
+            {
+                s += assetItem.Name;
+                s += "\r\n";
+            }
+
+            System.IO.File.WriteAllText(path, s);
+        }
 
 		protected virtual void Load(BinaryReader stream, bool loadDataIntoMemory)
 		{

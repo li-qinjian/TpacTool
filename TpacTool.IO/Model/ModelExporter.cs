@@ -143,6 +143,11 @@ namespace TpacTool.IO
                         foreach (var flag in validMaterial.ShaderMaterialFlags)
                         {
                             parmStr += flag;
+                            if (flag == "alpha_test")
+                            {
+                                float AlphaTestValue = validMaterial.AlphaTest * 256.0f;
+                                parmStr += "[" + AlphaTestValue.ToString() + "]";
+                            }
                             parmStr += "\t";
                         }
                     }
