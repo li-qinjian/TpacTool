@@ -313,6 +313,15 @@ namespace TpacTool
             }
         }
 
+        public static string RemoveSuffix(string s, string suffix)
+        {
+            if (s.EndsWith(suffix))
+            {
+                return s.Substring(0, s.Length - suffix.Length);
+            }
+            return s;
+        }
+
         private void Export()
         {
             if (!CanExport)
@@ -396,7 +405,21 @@ namespace TpacTool
             }
             else
             {
-                DirectoryInfo exportDir = curWorkDir.CreateSubdirectory(Asset.Name);
+                string assetName = Asset.Name;
+                assetName = RemoveSuffix(assetName, "converted");
+                assetName = RemoveSuffix(assetName, "converted_slim");
+                if (assetName != Asset.Name)
+                {
+                    // do not export textures
+                    if (option.HasFlag(ModelExporter.ModelExportOption.ExportTextures))
+                        option ^= ModelExporter.ModelExportOption.ExportTextures;
+                    else if (option.HasFlag(ModelExporter.ModelExportOption.ExportTexturesSubFolder))
+                        option ^= ModelExporter.ModelExportOption.ExportTexturesSubFolder;
+                    else if (option.HasFlag(ModelExporter.ModelExportOption.ExportDiffuseOnly))
+                        option ^= ModelExporter.ModelExportOption.ExportDiffuseOnly;
+                }
+
+                DirectoryInfo exportDir = curWorkDir.CreateSubdirectory(assetName);
                 var path = exportDir + "\\" + Asset.Name + "_ori.fbx";
 
                 MessengerInstance.Send(string.Format("Export {0} ...", Asset.Name), MainViewModel.StatusEvent);
