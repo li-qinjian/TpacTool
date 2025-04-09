@@ -472,7 +472,9 @@ namespace TpacTool
 
 		private void ShowAbout()
 		{
-			var about = new AboutWindow();
+			AssetManager.exportPackage();
+
+            var about = new AboutWindow();
 			about.Owner = Application.Current.MainWindow;
 			about.ShowDialog();
 		}
