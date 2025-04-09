@@ -199,6 +199,59 @@ namespace TpacTool.Lib
 
         public void exportPackage()
         {
+            //scan missed materials and textures.
+            {
+                HashSet<Guid> missedMatguids = new HashSet<Guid>();
+                HashSet<Texture> depTextures = new HashSet<Texture>();
+                foreach (var package in _loadedPackages)
+                {
+                    foreach(var assetItem in package.Items)
+                    {
+                        if (assetItem.Type == Metamesh.TYPE_GUID)
+                        {
+                            var metamesh = assetItem as Metamesh;
+                            foreach (var mesh in metamesh.Meshes)
+                            {
+                                if (mesh.Lod > 0)
+                                    continue;
+
+                                if (mesh.Material.Guid != Guid.Empty)
+                                {
+                                    if (mesh.Material.TryGetItem(out var mat1))
+                                    {
+                                        foreach (var texDep in mat1.Textures.Values)
+                                        {
+                                            if (texDep.TryGetItem(out var tex))
+                                                depTextures.Add(tex);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        missedMatguids.Add(mesh.Material.Guid);
+                                    }
+
+                                }
+                                else if (mesh.SecondMaterial.Guid != Guid.Empty)
+                                {
+                                    if (mesh.SecondMaterial.TryGetItem(out var mat2))
+                                    {
+                                        foreach (var texDep in mat2.Textures.Values)
+                                        {
+                                            if (texDep.TryGetItem(out var tex))
+                                                depTextures.Add(tex);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        missedMatguids.Add(mesh.Material.Guid);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
             var reader = new StreamReader(File.OpenRead(filterCSV));
             List<string> filterTextList = new List<string>();
