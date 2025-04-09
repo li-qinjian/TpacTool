@@ -154,6 +154,30 @@ namespace TpacTool.Lib
             return subPack;
         }
 
+        public AssetPackage extractSubPackage(HashSet<Guid> missedMatGuids, HashSet<Guid> missedTexGuids)
+        {
+            AssetPackage subPack = new AssetPackage(this.Guid);
+
+            subPack.File = this.File;
+            subPack.HeaderLoaded = this.HeaderLoaded;
+            subPack.DataLoaded = this.DataLoaded;
+
+            subPack.Items = new List<AssetItem>(this.Items.Count);
+            foreach (var assetItem in this.Items)
+            {
+                if (assetItem.Type == Material.TYPE_GUID && missedMatGuids.Contains(assetItem.Guid))
+                {
+                    subPack.Items.Add(assetItem);   //match.
+                }
+                else if (assetItem.Type == Texture.TYPE_GUID && missedTexGuids.Contains(assetItem.Guid))
+                {
+                    subPack.Items.Add(assetItem);
+                }
+            }
+
+            return subPack;
+        }
+
         protected virtual void Load(BinaryReader stream, bool loadDataIntoMemory)
         {
             if (loadDataIntoMemory && !stream.BaseStream.CanSeek)
