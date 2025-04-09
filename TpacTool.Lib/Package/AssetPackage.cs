@@ -100,15 +100,15 @@ namespace TpacTool.Lib
 			{
 				// TODO:
 			}
-
-			if (this.Items.Count > 0)
-				exportMeshNamesToCSV();
 		}
 
 		private static HashSet<string> tempStrs = new HashSet<string>();
 
-        private void exportMeshNamesToCSV()
+        public void exportMeshNamesToCSV()
         {
+			if (this.Items.Count < 1)
+				return;
+
             string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
             string s = "";
 			//s += this.Items.Count.ToString();
@@ -239,16 +239,16 @@ namespace TpacTool.Lib
 				Save(stream, tpacVersion);
 			}
 
-#if NETSTANDARD1_3
-			if (System.IO.File.Exists(saveTargetPath))
-				System.IO.File.Delete(saveTargetPath);
-			saveTargetFi.MoveTo(saveTargetPath);
-#else
-			if (System.IO.File.Exists(saveTargetPath))
-				saveTargetFi.Replace(saveTargetPath, null);
-			else
-				saveTargetFi.MoveTo(saveTargetPath);
-#endif
+//#if NETSTANDARD1_3
+//			if (System.IO.File.Exists(saveTargetPath))
+//				System.IO.File.Delete(saveTargetPath);
+//			saveTargetFi.MoveTo(saveTargetPath);
+//#else
+//			if (System.IO.File.Exists(saveTargetPath))
+//				saveTargetFi.Replace(saveTargetPath, null);
+//			else
+//				saveTargetFi.MoveTo(saveTargetPath);
+//#endif
 		}
 
 		public virtual void Save(BinaryWriter stream, int tpacVersion = TPAC_LATEST_VERSION)

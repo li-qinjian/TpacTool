@@ -12,7 +12,11 @@ namespace TpacTool.Lib
 
 		public Guid BillboardGuid { set; get; }
 
-		public uint UnknownUint1 { set; get; } // always 0
+        public uint version { set; get; }
+
+        public uint subVersion { set; get; }
+
+        public uint UnknownUint1 { set; get; } // always 0
 
 		public List<string> Flags { private set; get; }
 
@@ -62,9 +66,9 @@ namespace TpacTool.Lib
 
 		public override void ReadMetadata(BinaryReader stream, int totalSize)
 		{
-			var version = stream.ReadUInt32();
+		    version = stream.ReadUInt32();
 			BillboardGuid = stream.ReadGuid();
-			var subVersion = stream.ReadUInt32();
+		    subVersion = stream.ReadUInt32();
 			UnknownUint1 = stream.ReadUInt32();
 			Flags = stream.ReadStringList();
 			UnknownUint2 = stream.ReadUInt32();
@@ -85,7 +89,30 @@ namespace TpacTool.Lib
 			ExtraMaterialSettings.Load(stream, subVersion);
 		}
 
-		public class ExtraMaterialSetting
+        public override void WriteMetadata(BinaryWriter stream)
+        {
+            stream.Write(version);
+            stream.Write(BillboardGuid);
+            stream.Write(subVersion);
+            stream.Write(UnknownUint1);
+            stream.WriteStringList(Flags);
+            stream.Write(UnknownUint2);
+            stream.WriteStringList(VertexLayoutFlags);
+			stream.WriteSizedString(BlendMode);
+			stream.Write(Shader.Guid);
+            stream.Write(Textures.Count);
+            foreach (var tex in Textures)
+			{
+                stream.Write(tex.Key);
+                stream.Write(tex.Value.Guid);
+            }
+            stream.Write(AlphaTest);
+            stream.WriteStringList(ShaderMaterialFlags);
+
+			ExtraMaterialSettings.WriteMetadata(stream, subVersion);
+        }
+
+        public class ExtraMaterialSetting
 		{
 			public float AreamapScale { get; set; }
 			public float AreamapAmount { get; set; }
@@ -143,6 +170,28 @@ namespace TpacTool.Lib
 				if (subVersion >= 2) // since 1.8.0
 					ExposureCompensation = stream.ReadSingle();
 			}
-		}
+
+			internal void WriteMetadata(BinaryWriter stream, uint subVersion = 2)
+            {
+                stream.Write(AreamapScale);
+                stream.Write(AreamapAmount);
+                stream.Write(DetailnormalScale);
+                stream.Write(NormalmapPower);
+                stream.Write(MeshVectorArgument);
+                stream.Write(MeshVectorArgument2);
+                stream.Write(MeshFactorColorMultiplier);
+                stream.Write(MeshFactor2ColorMultiplier);
+                stream.Write(RenderOrder);
+                stream.Write(MipmapBias);
+                stream.Write(SpecularCoef);
+                stream.Write(GlossCoef);
+                stream.Write(ParallaxAmount);
+                if (subVersion >= 1)
+                    stream.Write(ParallaxOffset);
+                stream.Write(AmbientOcclusionCoef);
+                if (subVersion >= 2) // since 1.8.0
+                    stream.Write(ExposureCompensation);
+            }
+        }
 	}
 }

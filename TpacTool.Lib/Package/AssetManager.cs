@@ -199,6 +199,15 @@ namespace TpacTool.Lib
 			return false;
 		}
 
+		public void exportPackage()
+		{
+			foreach(var package in _loadedPackages)
+			{
+				package.exportMeshNamesToCSV();
+                package.Save(/*package.File.FullName*/);
+            }
+        }
+
 		public AssetItem GetAsset(Guid guid)
 		{
 			_assetLookup.TryGetValue(guid, out var result);
