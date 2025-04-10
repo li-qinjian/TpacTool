@@ -417,10 +417,18 @@ namespace TpacTool.Lib
 
                 if (metaMeshGuids.Count > 0)
                 {
+                    string dirFullName = WorkDir.FullName + "\\..\\ExportAssets\\";
+                    DirectoryInfo directory = new DirectoryInfo(dirFullName);
+                    if (!directory.Exists)
+                        directory.Create();
+
+                    foreach (FileInfo file in directory.GetFiles())
+                    {
+                        file.Delete();
+                    }
+
                     foreach (var package in _loadedPackages)
                     {
-                        string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
-
                         var subPack = package.extractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
                         if (subPack.Items.Count > 0)
                         {

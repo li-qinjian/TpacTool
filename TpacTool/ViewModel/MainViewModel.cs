@@ -482,7 +482,8 @@ namespace TpacTool
 
         private void ExtractModels()
         {
-            AssetManager.extractPackageByFilterText();
+			if (AssetManager != null)
+				AssetManager.extractPackageByFilterText();
         }
 
         /*public sealed class TabItem
