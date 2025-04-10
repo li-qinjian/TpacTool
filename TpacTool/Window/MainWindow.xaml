@@ -17,14 +17,15 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition Width="28*"/>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="262*"/>
         </Grid.ColumnDefinitions>
-        <StatusBar Margin="0" VerticalAlignment="Bottom" Height="26" Grid.ColumnSpan="3">
+        <StatusBar Margin="0" VerticalAlignment="Bottom" Height="26" Grid.ColumnSpan="4">
             <TextBlock Margin="5,0,0,0" Text="{Binding StatusMsg, Mode=OneWay}" />
         </StatusBar>
-        <Menu Height="26" Margin="0" VerticalAlignment="Top" Grid.ColumnSpan="3">
+        <Menu Height="26" Margin="0" VerticalAlignment="Top" Grid.ColumnSpan="4">
             <MenuItem Header="{x:Static loc:Resources.Main_Menu_File}" Height="24" Margin="0,1,0,0">
                 <MenuItem Header="{x:Static loc:Resources.Main_Menu_File_OpenAssetFolder}" InputGestureText="Ctrl+O" Command="{Binding OpenAssetFolderCommand}"/>
                 <Separator/>
@@ -48,6 +49,7 @@
                     <MenuItem Header="中文" IsCheckable="True" IsChecked="{Binding Settings.Language, ConverterParameter=zh-CN, Converter={StaticResource StringEqualConverter}}" Command="{Binding ChangeLanguageCommand}" CommandParameter="zh-CN"/>
                 </MenuItem>
                 <Separator/>
+                <MenuItem Header="{x:Static loc:Resources.Main_Menu_Settings_Extract}" Command="{Binding ExtractModelsCommand}"/>
                 <MenuItem Header="{x:Static loc:Resources.Main_Menu_Settings_About}" Command="{Binding ShowAboutCommand}"/>
             </MenuItem>
         </Menu>
@@ -65,9 +67,9 @@
                 </TabControl.ContentTemplate>
             </betterwpfcontrols:TabControl>
         </Grid>
-        <GridSplitter Grid.Column="0" Width="5" Margin="0,26"/>
-        <Frame Grid.Column="1" Margin="0,26,5,26" NavigationUIVisibility="Hidden" Source="{Binding AssetPanelUri, Mode=OneWay}"/>
-        <GridSplitter Grid.Column="1" Width="5" Margin="0,26"/>
-        <Frame Grid.Column="2" Margin="0,26" Background="Gray" NavigationUIVisibility="Hidden" Source="{Binding AssetPreviewUri, Mode=OneWay}"/>
+        <GridSplitter Grid.Column="0" Width="5" Margin="233,26,0,26" HorizontalAlignment="Left"/>
+        <Frame Margin="238,26,5,26" NavigationUIVisibility="Hidden" Source="{Binding AssetPanelUri, Mode=OneWay}" Grid.ColumnSpan="3"/>
+        <GridSplitter Grid.Column="2" Width="5" Margin="177,26,0,26" HorizontalAlignment="Left"/>
+        <Frame Grid.Column="2" Margin="182,26,0,26" Background="Gray" NavigationUIVisibility="Hidden" Source="{Binding AssetPreviewUri, Mode=OneWay}" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

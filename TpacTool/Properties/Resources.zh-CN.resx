@@ -262,6 +262,9 @@
   <data name="Main_Menu_Settings_About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="Main_Menu_Settings_Extract" xml:space="preserve">
+    <value>提取</value>
+  </data>
   <data name="Main_Menu_Settings_Languages" xml:space="preserve">
     <value>语言</value>
   </data>

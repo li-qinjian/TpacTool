@@ -262,6 +262,9 @@ The exporting frame rate should match the frame rate of the modeling software yo
   <data name="Main_Menu_Settings_About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="Main_Menu_Settings_Extract" xml:space="preserve">
+    <value>Extract:</value>
+  </data>
   <data name="Main_Menu_Settings_Languages" xml:space="preserve">
     <value>Languages</value>
   </data>
@@ -525,7 +528,6 @@ The exporting frame rate should match the frame rate of the modeling software yo
   </data>
   <data name="Msgbox_DefaultSkeletonNotFound" xml:space="preserve">
     <value>Cannot find/load the default skeleton of this animation. </value>
-    
   </data>
   <data name="Msgbox_DirNotExisting" xml:space="preserve">
     <value>The directory doesn't exist</value>
@@ -631,6 +633,10 @@ The exporting frame rate should match the frame rate of the modeling software yo
   </data>
   <data name="Preview_Transition_Inertia_Tooltip" xml:space="preserve">
     <value>Enable inertia for camera transition when changing model.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Resources_zh_CN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources.zh-CN.resx;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Texture_Dialog_SelectExportFile" xml:space="preserve">
     <value>Export texture to ...</value>

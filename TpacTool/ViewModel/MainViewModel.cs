@@ -71,8 +71,9 @@ namespace TpacTool
 		public ICommand ChangeLanguageCommand { set; get; }
 
 		public ICommand ShowAboutCommand { set; get; }
+        public ICommand ExtractModelsCommand { set; get; }
 
-		public int RecentDirCount { private set; get; }
+        public int RecentDirCount { private set; get; }
 
 		public string[] RecentDirStrings { private set; get; }
 
@@ -148,8 +149,9 @@ namespace TpacTool
 				OpenRecentFolderCommand = new RelayCommand<string>(OpenRecentFolder);
 				ChangeLanguageCommand = new RelayCommand<string>(ChangeLanguage);
 				ShowAboutCommand = new RelayCommand(ShowAbout);
+				ExtractModelsCommand = new RelayCommand(ExtractModels);
 
-				MessengerInstance.Register<AssetItem>(this, AssetTreeViewModel.AssetSelectedEvent, OnSelectAsset);
+                MessengerInstance.Register<AssetItem>(this, AssetTreeViewModel.AssetSelectedEvent, OnSelectAsset);
 
 				MessengerInstance.Register<string>(this, StatusEvent, msg => StatusMsg = msg);
 
@@ -472,17 +474,22 @@ namespace TpacTool
 
 		private void ShowAbout()
 		{
-			AssetManager.exportPackage();
+			//AssetManager.exportPackage();
 
             var about = new AboutWindow();
 			about.Owner = Application.Current.MainWindow;
 			about.ShowDialog();
 		}
 
-		/*public sealed class TabItem
+        private void ExtractModels()
+        {
+            AssetManager.exportPackage();
+        }
+
+        /*public sealed class TabItem
 		{
 			public string Header { set; get; }
 			public Page Content { set; get; }
 		}*/
-	}
+    }
 }
