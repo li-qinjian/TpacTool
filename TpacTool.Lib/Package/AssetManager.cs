@@ -316,6 +316,95 @@ namespace TpacTool.Lib
             }
         }
 
+        public void extractPackageByFilterText()
+        {
+            List<string> filterTextList = new List<string>();
+            string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
+            if (File.Exists(filterCSV))
+            {
+                var reader = new StreamReader(File.OpenRead(filterCSV));
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    //var values = line.Split(';');
+                    if (line != "")
+                        filterTextList.Add(line);
+                }
+            }
+
+            if (filterTextList.Count > 0)
+            {
+                HashSet<Guid> metaMeshGuids = new HashSet<Guid>();
+                HashSet<Guid> depMatGuids = new HashSet<Guid>();
+                HashSet<Guid> depTexGuids = new HashSet<Guid>();
+                foreach (var item in _loadedAssets)
+                {
+                    if (item.Type == Metamesh.TYPE_GUID && item is Metamesh metamesh)
+                    {
+                        foreach (var mesh in metamesh.Meshes)
+                        {
+                            if (mesh.Lod > 0)
+                                continue;
+
+                            bool bHit = false;
+                            foreach (var filterText in filterTextList)
+                            {
+                                if (mesh.Name.StartsWith(filterText))
+                                {
+                                    bHit = true;
+                                    break;
+                                }
+                            }
+
+                            if (bHit)
+                            {
+                                metaMeshGuids.Add(item.Guid);
+                                if (mesh.Material.Guid != Guid.Empty)
+                                {
+                                    depMatGuids.Add(mesh.Material.Guid);
+                                    if (mesh.Material.TryGetItem(out var mat1))
+                                    {
+                                        var mat = mat1 as Material;
+                                        foreach (var texDep in mat.Textures.Values)
+                                        {
+                                            if (texDep.TryGetItem(out var tex))
+                                                depTexGuids.Add(tex.Guid);
+                                        }
+                                    }
+                                }
+                                else if (mesh.SecondMaterial.Guid != Guid.Empty)
+                                {
+                                    depMatGuids.Add(mesh.SecondMaterial.Guid);
+                                    if (mesh.SecondMaterial.TryGetItem(out var mat2))
+                                    {
+                                        var mat = mat2 as Material;
+                                        foreach (var texDep in mat.Textures.Values)
+                                        {
+                                            if (texDep.TryGetItem(out var tex))
+                                                depTexGuids.Add(tex.Guid);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (metaMeshGuids.Count > 0)
+                {
+                    foreach (var package in _loadedPackages)
+                    {
+                        string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
+
+                        var subPack = package.extractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
+                        if (subPack.Items.Count > 0)
+                            subPack.Save(dirFullName + subPack.File.Name);
+                    }
+                }
+            }
+
+        }
+
         public AssetItem GetAsset(Guid guid)
         {
             _assetLookup.TryGetValue(guid, out var result);

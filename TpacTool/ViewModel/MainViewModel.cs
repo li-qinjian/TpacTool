@@ -71,6 +71,7 @@ namespace TpacTool
 		public ICommand ChangeLanguageCommand { set; get; }
 
 		public ICommand ShowAboutCommand { set; get; }
+
         public ICommand ExtractModelsCommand { set; get; }
 
         public int RecentDirCount { private set; get; }
@@ -474,8 +475,6 @@ namespace TpacTool
 
 		private void ShowAbout()
 		{
-			//AssetManager.exportPackage();
-
             var about = new AboutWindow();
 			about.Owner = Application.Current.MainWindow;
 			about.ShowDialog();
@@ -483,7 +482,7 @@ namespace TpacTool
 
         private void ExtractModels()
         {
-            AssetManager.exportPackage();
+            AssetManager.extractPackageByFilterText();
         }
 
         /*public sealed class TabItem
