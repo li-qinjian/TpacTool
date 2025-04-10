@@ -318,8 +318,8 @@ namespace TpacTool.Lib
 
         public void extractPackageByFilterText()
         {
-            List<string> filterTextList = new List<string>();
-            string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
+            List<string> incFilterTextList = new List<string>();
+            string filterCSV = Path.Combine(WorkDir.FullName + "\\incFilter.csv");
             if (File.Exists(filterCSV))
             {
                 var reader = new StreamReader(File.OpenRead(filterCSV));
@@ -328,11 +328,24 @@ namespace TpacTool.Lib
                     var line = reader.ReadLine();
                     //var values = line.Split(';');
                     if (line != "")
-                        filterTextList.Add(line);
+                        incFilterTextList.Add(line);
                 }
             }
 
-            if (filterTextList.Count > 0)
+            List<string> excFilterTextList = new List<string>();
+            filterCSV = Path.Combine(WorkDir.FullName + "\\excFilter.csv");
+            if (File.Exists(filterCSV))
+            {
+                var reader = new StreamReader(File.OpenRead(filterCSV));
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (line != "")
+                        excFilterTextList.Add(line);
+                }
+            }
+
+            if (incFilterTextList.Count > 0 || excFilterTextList.Count > 0)
             {
                 HashSet<Guid> metaMeshGuids = new HashSet<Guid>();
                 HashSet<Guid> depMatGuids = new HashSet<Guid>();
@@ -347,12 +360,24 @@ namespace TpacTool.Lib
                                 continue;
 
                             bool bHit = false;
-                            foreach (var filterText in filterTextList)
+                            foreach (var filterText in incFilterTextList)
                             {
-                                if (mesh.Name.StartsWith(filterText))
+                                if (metamesh.Name.StartsWith(filterText))
                                 {
                                     bHit = true;
                                     break;
+                                }
+                            }
+
+                            if (bHit)
+                            {
+                                foreach (var filterText in excFilterTextList)
+                                {
+                                    if (metamesh.Name.EndsWith(filterText))
+                                    {
+                                        bHit = false;
+                                        break;
+                                    }
                                 }
                             }
 
