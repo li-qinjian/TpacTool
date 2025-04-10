@@ -197,124 +197,124 @@ namespace TpacTool.Lib
             return false;
         }
 
-        public void exportPackage()
-        {
-            //HashSet<Guid> missedMatGuids = new HashSet<Guid>();
-            //string missedMatsCSV = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
-            //if (File.Exists(missedMatsCSV))
-            //{
-            //    var reader = new StreamReader(File.OpenRead(missedMatsCSV));
-            //    while (!reader.EndOfStream)
-            //    {
-            //        var line = reader.ReadLine();
-            //        //var values = line.Split(';');
-            //        if (line != "")
-            //            missedMatGuids.Add(Guid.Parse(line));
-            //    }
-            //}
+        //public void exportPackage()
+        //{
+        //    //HashSet<Guid> missedMatGuids = new HashSet<Guid>();
+        //    //string missedMatsCSV = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
+        //    //if (File.Exists(missedMatsCSV))
+        //    //{
+        //    //    var reader = new StreamReader(File.OpenRead(missedMatsCSV));
+        //    //    while (!reader.EndOfStream)
+        //    //    {
+        //    //        var line = reader.ReadLine();
+        //    //        //var values = line.Split(';');
+        //    //        if (line != "")
+        //    //            missedMatGuids.Add(Guid.Parse(line));
+        //    //    }
+        //    //}
 
-            ////scan missed materials and textures.
-            //if (missedMatGuids.Count == 0)
-            //{
-            //    foreach (var package in _loadedPackages)
-            //    {
-            //        foreach (var assetItem in package.Items)
-            //        {
-            //            if (assetItem.Type == Metamesh.TYPE_GUID)
-            //            {
-            //                var metamesh = assetItem as Metamesh;
-            //                foreach (var mesh in metamesh.Meshes)
-            //                {
-            //                    if (mesh.Lod > 0)
-            //                        continue;
+        //    ////scan missed materials and textures.
+        //    //if (missedMatGuids.Count == 0)
+        //    //{
+        //    //    foreach (var package in _loadedPackages)
+        //    //    {
+        //    //        foreach (var assetItem in package.Items)
+        //    //        {
+        //    //            if (assetItem.Type == Metamesh.TYPE_GUID)
+        //    //            {
+        //    //                var metamesh = assetItem as Metamesh;
+        //    //                foreach (var mesh in metamesh.Meshes)
+        //    //                {
+        //    //                    if (mesh.Lod > 0)
+        //    //                        continue;
 
-            //                    if (mesh.Material.Guid != Guid.Empty)
-            //                    {
-            //                        if (!mesh.Material.TryGetItem(out var mat1))
-            //                        {
-            //                            missedMatGuids.Add(mesh.Material.Guid);
-            //                        }
-            //                    }
-            //                    else if (mesh.SecondMaterial.Guid != Guid.Empty)
-            //                    {
-            //                        if (!mesh.SecondMaterial.TryGetItem(out var mat2))
-            //                        {
-            //                            missedMatGuids.Add(mesh.SecondMaterial.Guid);
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
+        //    //                    if (mesh.Material.Guid != Guid.Empty)
+        //    //                    {
+        //    //                        if (!mesh.Material.TryGetItem(out var mat1))
+        //    //                        {
+        //    //                            missedMatGuids.Add(mesh.Material.Guid);
+        //    //                        }
+        //    //                    }
+        //    //                    else if (mesh.SecondMaterial.Guid != Guid.Empty)
+        //    //                    {
+        //    //                        if (!mesh.SecondMaterial.TryGetItem(out var mat2))
+        //    //                        {
+        //    //                            missedMatGuids.Add(mesh.SecondMaterial.Guid);
+        //    //                        }
+        //    //                    }
+        //    //                }
+        //    //            }
+        //    //        }
+        //    //    }
 
-            //    if (missedMatGuids.Count > 0)
-            //    {
-            //        string path = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
-            //        string s = "";
-            //        //s += this.Items.Count.ToString();
-            //        foreach (var guid in missedMatGuids)
-            //        {
-            //            s += guid;
-            //            s += "\r\n";
-            //        }
+        //    //    if (missedMatGuids.Count > 0)
+        //    //    {
+        //    //        string path = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
+        //    //        string s = "";
+        //    //        //s += this.Items.Count.ToString();
+        //    //        foreach (var guid in missedMatGuids)
+        //    //        {
+        //    //            s += guid;
+        //    //            s += "\r\n";
+        //    //        }
 
-            //        System.IO.File.WriteAllText(path, s);
-            //    }
-            //}
-            //else
-            //{
-            //    HashSet<Guid> missedTexGuids = new HashSet<Guid>();
-            //    foreach (var guid in missedMatGuids)
-            //    {
-            //        if (_assetLookup.TryGetValue(guid, out var result))
-            //        {
-            //            var mat = result as Material;
-            //            foreach (var texDep in mat.Textures.Values)
-            //            {
-            //                if (texDep.TryGetItem(out var tex))
-            //                    missedTexGuids.Add(tex.Guid);
-            //            }
-            //        }
-            //    }
+        //    //        System.IO.File.WriteAllText(path, s);
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    HashSet<Guid> missedTexGuids = new HashSet<Guid>();
+        //    //    foreach (var guid in missedMatGuids)
+        //    //    {
+        //    //        if (_assetLookup.TryGetValue(guid, out var result))
+        //    //        {
+        //    //            var mat = result as Material;
+        //    //            foreach (var texDep in mat.Textures.Values)
+        //    //            {
+        //    //                if (texDep.TryGetItem(out var tex))
+        //    //                    missedTexGuids.Add(tex.Guid);
+        //    //            }
+        //    //        }
+        //    //    }
 
-            //    if (missedTexGuids.Count > 0 || missedMatGuids.Count > 0)
-            //    {
-            //        foreach (var package in _loadedPackages)
-            //        {
-            //            //package.exportMeshNamesToCSV();
-            //            string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
+        //    //    if (missedTexGuids.Count > 0 || missedMatGuids.Count > 0)
+        //    //    {
+        //    //        foreach (var package in _loadedPackages)
+        //    //        {
+        //    //            //package.exportMeshNamesToCSV();
+        //    //            string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
 
-            //            var subPack = package.extractSubPackage(missedMatGuids, missedTexGuids);
-            //            if (subPack.Items.Count > 0)
-            //                subPack.Save(dirFullName + subPack.File.Name);
-            //        }
-            //    }
-            //}
+        //    //            var subPack = package.extractSubPackage(missedMatGuids, missedTexGuids);
+        //    //            if (subPack.Items.Count > 0)
+        //    //                subPack.Save(dirFullName + subPack.File.Name);
+        //    //        }
+        //    //    }
+        //    //}
 
-            List<string> filterTextList = new List<string>();
-            string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
-            if (File.Exists(filterCSV))
-            {
-                var reader = new StreamReader(File.OpenRead(filterCSV));
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    //var values = line.Split(';');
-                    if (line != "")
-                        filterTextList.Add(line);
-                }
-            }
+        //    List<string> filterTextList = new List<string>();
+        //    string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
+        //    if (File.Exists(filterCSV))
+        //    {
+        //        var reader = new StreamReader(File.OpenRead(filterCSV));
+        //        while (!reader.EndOfStream)
+        //        {
+        //            var line = reader.ReadLine();
+        //            //var values = line.Split(';');
+        //            if (line != "")
+        //                filterTextList.Add(line);
+        //        }
+        //    }
 
-            foreach (var package in _loadedPackages)
-            {
-                //package.exportMeshNamesToCSV();
-                string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
+        //    foreach (var package in _loadedPackages)
+        //    {
+        //        //package.exportMeshNamesToCSV();
+        //        string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
 
-                var subPack = package.extractSubPackage(filterTextList);
-                if (subPack.Items.Count > 0)
-                    subPack.Save(dirFullName + subPack.File.Name);
-            }
-        }
+        //        var subPack = package.extractSubPackage(filterTextList);
+        //        if (subPack.Items.Count > 0)
+        //            subPack.Save(dirFullName + subPack.File.Name);
+        //    }
+        //}
 
         public void extractPackageByFilterText()
         {
@@ -398,7 +398,10 @@ namespace TpacTool.Lib
 
                         var subPack = package.extractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
                         if (subPack.Items.Count > 0)
+                        {
                             subPack.Save(dirFullName + subPack.File.Name);
+                            subPack.exportMeshNamesToCSV(dirFullName + subPack.File.Name.Replace(".tpac", ".csv"));
+                        }
                     }
                 }
             }

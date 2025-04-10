@@ -103,25 +103,26 @@ namespace TpacTool.Lib
 
         private static HashSet<string> tempStrs = new HashSet<string>();
 
-        //public void exportMeshNamesToCSV()
-        //{
-        //    if (this.Items.Count < 1)
-        //        return;
+        public void exportMeshNamesToCSV(string newFilePath = null)
+        {
+            if (this.Items.Count < 1)
+                return;
 
-        //    string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
-        //    string s = "";
-        //    //s += this.Items.Count.ToString();
-        //    foreach (var assetItem in this.Items)
-        //    {
-        //        if (assetItem.Type != Metamesh.TYPE_GUID)
-        //            continue;
+            //string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
 
-        //        s += assetItem.Name;
-        //        s += "\r\n";
-        //    }
+            string s = "";
+            //s += this.Items.Count.ToString();
+            foreach (var assetItem in this.Items)
+            {
+                if (assetItem.Type != Metamesh.TYPE_GUID)
+                    continue;
 
-        //    System.IO.File.WriteAllText(path, s);
-        //}
+                s += assetItem.Name;
+                s += "\r\n";
+            }
+
+            System.IO.File.WriteAllText(newFilePath, s);
+        }
 
         public AssetPackage extractSubPackage(List<string> filterTextList)
         {
@@ -146,30 +147,6 @@ namespace TpacTool.Lib
                     }
                 }
                 else
-                {
-                    subPack.Items.Add(assetItem);
-                }
-            }
-
-            return subPack;
-        }
-
-        public AssetPackage extractSubPackage(HashSet<Guid> missedMatGuids, HashSet<Guid> missedTexGuids)
-        {
-            AssetPackage subPack = new AssetPackage(this.Guid);
-
-            subPack.File = this.File;
-            subPack.HeaderLoaded = this.HeaderLoaded;
-            subPack.DataLoaded = this.DataLoaded;
-
-            subPack.Items = new List<AssetItem>(this.Items.Count);
-            foreach (var assetItem in this.Items)
-            {
-                if (assetItem.Type == Material.TYPE_GUID && missedMatGuids.Contains(assetItem.Guid))
-                {
-                    subPack.Items.Add(assetItem);   //match.
-                }
-                else if (assetItem.Type == Texture.TYPE_GUID && missedTexGuids.Contains(assetItem.Guid))
                 {
                     subPack.Items.Add(assetItem);
                 }
