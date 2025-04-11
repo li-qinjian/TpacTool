@@ -146,6 +146,10 @@ namespace TpacTool.Lib
                 {
                     subPack.Items.Add(assetItem);
                 }
+                else if (assetItem.Type == PhysicsShape.TYPE_GUID)
+                {
+                    subPack.Items.Add(assetItem);   // physics meshes of shield.
+                }
             }
 
             return subPack;

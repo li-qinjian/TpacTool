@@ -21,7 +21,7 @@ namespace TpacTool
 
         public static readonly Guid UpdateModelListEvent = Guid.NewGuid();
 
-        private static HashSet<string> bookMarks = new HashSet<string>();
+        private static HashSet<string> setBookMarks = new HashSet<string>();
 
         private List<Skeleton> _skeletons = new List<Skeleton>();
 
@@ -260,25 +260,7 @@ namespace TpacTool
                 });
 
                 ExportCommand = new RelayCommand(Export);
-
                 BookMarkCommand = new RelayCommand(BookMark);
-                if (BookMarkCommand != null)
-                {
-                    string strWorkDir = Settings.Default.getCurrentWorkDir();
-                    string marksCSV = Path.Combine(strWorkDir + "\\bookMarks.csv");
-                    if (File.Exists(marksCSV))
-                    {
-                        var reader = new StreamReader(File.OpenRead(marksCSV));
-                        while (!reader.EndOfStream)
-                        {
-                            var line = reader.ReadLine();
-                            //var values = line.Split(';');
-                            if (line != "")
-                                bookMarks.Add(line);
-                        }
-                        reader.Close();
-                    }
-                }
 
                 MessengerInstance.Register<AssetItem>(this, AssetTreeViewModel.AssetSelectedEvent, OnSelectAsset);
                 MessengerInstance.Register<IEnumerable<Skeleton>>(this, UpdateSkeletonListEvent, skeletons =>
@@ -334,7 +316,7 @@ namespace TpacTool
                 RaisePropertyChanged("SelectedLod");
                 RaisePropertyChanged("SelectedMeshIndex");
 
-                if (bookMarks.Contains(metamesh.Name))
+                if (setBookMarks.Contains(metamesh.Name))
                 {
                     IsMarked = true;
                     RaisePropertyChanged("IsMarked");
@@ -471,7 +453,7 @@ namespace TpacTool
         {
             if ((bool)!_isMarked)
             {
-                bookMarks.Remove(Asset.Name);
+                setBookMarks.Remove(Asset.Name);
                 IsMarked = false;
                 RaisePropertyChanged("IsMarked");
 
@@ -479,7 +461,7 @@ namespace TpacTool
             }
             else
             {
-                bookMarks.Add(Asset.Name);
+                setBookMarks.Add(Asset.Name);
                 IsMarked = true;
                 RaisePropertyChanged("IsMarked");
 
@@ -489,14 +471,36 @@ namespace TpacTool
 
         public static void saveBookMarks()
         {
+            if (setBookMarks.Count > 0)
+            {
+                string strWorkDir = Settings.Default.getCurrentWorkDir();
+                string marksCSV = Path.Combine(strWorkDir + "\\bookMarks.csv");
+
+                if (File.Exists(marksCSV))
+                    File.Delete(marksCSV);
+
+                System.IO.File.WriteAllLines(marksCSV, setBookMarks.ToArray());
+            }
+        }
+
+        public static void loadBookMarks()
+        {
+            setBookMarks.Clear();
+
             string strWorkDir = Settings.Default.getCurrentWorkDir();
             string marksCSV = Path.Combine(strWorkDir + "\\bookMarks.csv");
-
             if (File.Exists(marksCSV))
-                File.Delete(marksCSV);
-
-            if (bookMarks.Count > 0)
-                System.IO.File.WriteAllLines(marksCSV, bookMarks.ToArray());
+            {
+                var reader = new StreamReader(File.OpenRead(marksCSV));
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    //var values = line.Split(';');
+                    if (line != "")
+                        setBookMarks.Add(line);
+                }
+                reader.Close();
+            }
         }
 
         private enum MaterialExportSetting

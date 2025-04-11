@@ -175,13 +175,19 @@ namespace TpacTool
         {
             if (assetFolderDialog.ShowDialog().GetValueOrDefault(false))
             {
+                saveBookMarks();
+
                 BeforeLoad();
                 Load(assetFolderDialog.SelectedPath);
+
+                loadBookMarks();
             }
         }
 
         private void OpenRecentFolder(string obj)
         {
+            saveBookMarks();
+
             BeforeLoad();
             int arg = int.Parse(obj);
             var rwd = Settings.Default.RecentWorkDirs;
@@ -190,6 +196,8 @@ namespace TpacTool
                 var path = rwd[arg];
                 Load(path, true);
             }
+
+            loadBookMarks();
         }
 
         private void OnLoadingCancelled(object obj)
@@ -495,6 +503,13 @@ namespace TpacTool
             ModelViewModel.saveBookMarks();
 
             MessengerInstance.Send("Book marks saved.", MainViewModel.StatusEvent);
+        }
+
+        private void loadBookMarks()
+        {
+            ModelViewModel.loadBookMarks();
+
+            MessengerInstance.Send("Book marks loaded.", MainViewModel.StatusEvent);
         }
 
         /*public sealed class TabItem

@@ -241,5 +241,14 @@ namespace TpacTool.Lib
 			var length = reader.BaseStream.Position - DEBUG_POSITION.Value;
 			Debug.Assert(length == readLength);
 		}
-	}
+
+        public static string RemoveSuffix(string s, string suffix)
+        {
+            if (s.EndsWith(suffix))
+            {
+                return s.Substring(0, s.Length - suffix.Length);
+            }
+            return s;
+        }
+    }
 }
