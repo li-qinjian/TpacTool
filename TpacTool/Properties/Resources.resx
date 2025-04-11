@@ -328,6 +328,9 @@ The exporting frame rate should match the frame rate of the modeling software yo
   <data name="Material_Properties_VertexLayoutHints" xml:space="preserve">
     <value>Vertex Layout Hints</value>
   </data>
+  <data name="Model_BookMark" xml:space="preserve">
+    <value>BookMark</value>
+  </data>
   <data name="Model_Dialog_SelectExportFile" xml:space="preserve">
     <value>Export model to ...</value>
   </data>

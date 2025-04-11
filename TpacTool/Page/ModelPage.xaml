@@ -13,6 +13,32 @@
     <Page.Resources>
         <TpacTool:BooleanFlipConverter x:Key="BooleanFlipConverter"/>
         <TpacTool:EnumEqualConverter x:Key="EnumEqualConverter"/>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="2" 
+                            CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="Green"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightGreen"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Page.DataContext>
         <Binding Path="Model" Source="{StaticResource Locator}"/>
@@ -153,6 +179,7 @@
                             <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="24" Height="24" Margin="0,11,10,0"/>
                             -->
                             <Button VerticalAlignment="Top" Height="24" Margin="10,10,10,0" Content="{x:Static loc:Resources.Model_Export}" Command="{Binding ExportCommand, Mode=OneWay}" IsEnabled="{Binding CanExport, Mode=OneWay}"/>
+                            <ToggleButton VerticalAlignment="Bottom" Height="24" Margin="10,44,10,0" Content="{x:Static loc:Resources.Model_BookMark}" Command="{Binding BookMarkCommand, Mode=OneWay}" IsChecked="{Binding IsMarked, Mode=TwoWay}"/>
                         </Grid>
                         <GroupBox Header="{x:Static loc:Resources.Model_Export_Type}">
                             <StackPanel>
@@ -202,3 +229,4 @@
         </ScrollViewer>
     </Grid>
 </Page>
+

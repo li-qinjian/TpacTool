@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace TpacTool.Lib
 {
@@ -103,59 +104,26 @@ namespace TpacTool.Lib
 
         private static HashSet<string> tempStrs = new HashSet<string>();
 
-        public void exportMeshNamesToCSV(string newFilePath = null)
+        public void ExportMeshNamesToCSV(string csvFilePath = null)
         {
             if (this.Items.Count < 1)
                 return;
 
             //string path = Path.Combine(File.FullName.Replace(".tpac", ".csv"));
-
-            string s = "";
-            //s += this.Items.Count.ToString();
+            List<string> metaMeshs = new List<string>();
             foreach (var assetItem in this.Items)
             {
                 if (assetItem.Type != Metamesh.TYPE_GUID)
                     continue;
 
-                s += assetItem.Name;
-                s += "\r\n";
+                metaMeshs.Add(assetItem.Name);
             }
 
-            System.IO.File.WriteAllText(newFilePath, s);
+            if (metaMeshs.Count > 0)
+                System.IO.File.WriteAllLines(csvFilePath, metaMeshs.ToArray());
         }
 
-        public AssetPackage extractSubPackage(List<string> filterTextList)
-        {
-            AssetPackage subPack = new AssetPackage(this.Guid);
-
-            subPack.File = this.File;
-            subPack.HeaderLoaded = this.HeaderLoaded;
-            subPack.DataLoaded = this.DataLoaded;
-
-            subPack.Items = new List<AssetItem>(this.Items.Count);
-            foreach (var assetItem in this.Items)
-            {
-                if (assetItem.Type == Metamesh.TYPE_GUID)
-                {
-                    foreach (var filterText in filterTextList)
-                    {
-                        if (assetItem.Name.StartsWith(filterText, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            subPack.Items.Add(assetItem);   //match.
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    subPack.Items.Add(assetItem);
-                }
-            }
-
-            return subPack;
-        }
-
-        public AssetPackage extractSubPackage(HashSet<Guid> metaMeshGuids, HashSet<Guid> depMatGuids, HashSet<Guid> depTexGuids)
+        public AssetPackage ExtractSubPackage(HashSet<Guid> metaMeshGuids, HashSet<Guid> depMatGuids, HashSet<Guid> depTexGuids)
         {
             AssetPackage subPack = new AssetPackage(this.Guid);
 

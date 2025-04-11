@@ -328,6 +328,9 @@
   <data name="Material_Properties_VertexLayoutHints" xml:space="preserve">
     <value>顶点布局参数</value>
   </data>
+  <data name="Model_BookMark" xml:space="preserve">
+    <value>标记</value>
+  </data>
   <data name="Model_Dialog_SelectExportFile" xml:space="preserve">
     <value>将模型导出到 ...</value>
   </data>

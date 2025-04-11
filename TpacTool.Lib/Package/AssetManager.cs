@@ -197,129 +197,10 @@ namespace TpacTool.Lib
             return false;
         }
 
-        //public void exportPackage()
-        //{
-        //    //HashSet<Guid> missedMatGuids = new HashSet<Guid>();
-        //    //string missedMatsCSV = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
-        //    //if (File.Exists(missedMatsCSV))
-        //    //{
-        //    //    var reader = new StreamReader(File.OpenRead(missedMatsCSV));
-        //    //    while (!reader.EndOfStream)
-        //    //    {
-        //    //        var line = reader.ReadLine();
-        //    //        //var values = line.Split(';');
-        //    //        if (line != "")
-        //    //            missedMatGuids.Add(Guid.Parse(line));
-        //    //    }
-        //    //}
-
-        //    ////scan missed materials and textures.
-        //    //if (missedMatGuids.Count == 0)
-        //    //{
-        //    //    foreach (var package in _loadedPackages)
-        //    //    {
-        //    //        foreach (var assetItem in package.Items)
-        //    //        {
-        //    //            if (assetItem.Type == Metamesh.TYPE_GUID)
-        //    //            {
-        //    //                var metamesh = assetItem as Metamesh;
-        //    //                foreach (var mesh in metamesh.Meshes)
-        //    //                {
-        //    //                    if (mesh.Lod > 0)
-        //    //                        continue;
-
-        //    //                    if (mesh.Material.Guid != Guid.Empty)
-        //    //                    {
-        //    //                        if (!mesh.Material.TryGetItem(out var mat1))
-        //    //                        {
-        //    //                            missedMatGuids.Add(mesh.Material.Guid);
-        //    //                        }
-        //    //                    }
-        //    //                    else if (mesh.SecondMaterial.Guid != Guid.Empty)
-        //    //                    {
-        //    //                        if (!mesh.SecondMaterial.TryGetItem(out var mat2))
-        //    //                        {
-        //    //                            missedMatGuids.Add(mesh.SecondMaterial.Guid);
-        //    //                        }
-        //    //                    }
-        //    //                }
-        //    //            }
-        //    //        }
-        //    //    }
-
-        //    //    if (missedMatGuids.Count > 0)
-        //    //    {
-        //    //        string path = Path.Combine(WorkDir.FullName + "\\missedMatGuids.csv");
-        //    //        string s = "";
-        //    //        //s += this.Items.Count.ToString();
-        //    //        foreach (var guid in missedMatGuids)
-        //    //        {
-        //    //            s += guid;
-        //    //            s += "\r\n";
-        //    //        }
-
-        //    //        System.IO.File.WriteAllText(path, s);
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    HashSet<Guid> missedTexGuids = new HashSet<Guid>();
-        //    //    foreach (var guid in missedMatGuids)
-        //    //    {
-        //    //        if (_assetLookup.TryGetValue(guid, out var result))
-        //    //        {
-        //    //            var mat = result as Material;
-        //    //            foreach (var texDep in mat.Textures.Values)
-        //    //            {
-        //    //                if (texDep.TryGetItem(out var tex))
-        //    //                    missedTexGuids.Add(tex.Guid);
-        //    //            }
-        //    //        }
-        //    //    }
-
-        //    //    if (missedTexGuids.Count > 0 || missedMatGuids.Count > 0)
-        //    //    {
-        //    //        foreach (var package in _loadedPackages)
-        //    //        {
-        //    //            //package.exportMeshNamesToCSV();
-        //    //            string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
-
-        //    //            var subPack = package.extractSubPackage(missedMatGuids, missedTexGuids);
-        //    //            if (subPack.Items.Count > 0)
-        //    //                subPack.Save(dirFullName + subPack.File.Name);
-        //    //        }
-        //    //    }
-        //    //}
-
-        //    List<string> filterTextList = new List<string>();
-        //    string filterCSV = Path.Combine(WorkDir.FullName + "\\filter.csv");
-        //    if (File.Exists(filterCSV))
-        //    {
-        //        var reader = new StreamReader(File.OpenRead(filterCSV));
-        //        while (!reader.EndOfStream)
-        //        {
-        //            var line = reader.ReadLine();
-        //            //var values = line.Split(';');
-        //            if (line != "")
-        //                filterTextList.Add(line);
-        //        }
-        //    }
-
-        //    foreach (var package in _loadedPackages)
-        //    {
-        //        //package.exportMeshNamesToCSV();
-        //        string dirFullName = package.File.Directory.FullName + "\\..\\ExportAssets\\";
-
-        //        var subPack = package.extractSubPackage(filterTextList);
-        //        if (subPack.Items.Count > 0)
-        //            subPack.Save(dirFullName + subPack.File.Name);
-        //    }
-        //}
-
         public void extractPackageByFilterText()
         {
             List<string> incFilterTextList = new List<string>();
-            string filterCSV = Path.Combine(WorkDir.FullName + "\\incFilter.csv");
+            string filterCSV = Path.Combine(WorkDir.FullName + "\\bookMarks.csv");
             if (File.Exists(filterCSV))
             {
                 var reader = new StreamReader(File.OpenRead(filterCSV));
@@ -332,20 +213,20 @@ namespace TpacTool.Lib
                 }
             }
 
-            List<string> excFilterTextList = new List<string>();
-            filterCSV = Path.Combine(WorkDir.FullName + "\\excFilter.csv");
-            if (File.Exists(filterCSV))
-            {
-                var reader = new StreamReader(File.OpenRead(filterCSV));
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    if (line != "")
-                        excFilterTextList.Add(line);
-                }
-            }
+            //List<string> excFilterTextList = new List<string>();
+            //filterCSV = Path.Combine(WorkDir.FullName + "\\excFilter.csv");
+            //if (File.Exists(filterCSV))
+            //{
+            //    var reader = new StreamReader(File.OpenRead(filterCSV));
+            //    while (!reader.EndOfStream)
+            //    {
+            //        var line = reader.ReadLine();
+            //        if (line != "")
+            //            excFilterTextList.Add(line);
+            //    }
+            //}
 
-            if (incFilterTextList.Count > 0 || excFilterTextList.Count > 0)
+            if (incFilterTextList.Count > 0 /*|| excFilterTextList.Count > 0*/)
             {
                 HashSet<Guid> metaMeshGuids = new HashSet<Guid>();
                 HashSet<Guid> depMatGuids = new HashSet<Guid>();
@@ -369,17 +250,17 @@ namespace TpacTool.Lib
                                 }
                             }
 
-                            if (bHit)
-                            {
-                                foreach (var filterText in excFilterTextList)
-                                {
-                                    if (metamesh.Name.EndsWith(filterText))
-                                    {
-                                        bHit = false;
-                                        break;
-                                    }
-                                }
-                            }
+                            //if (bHit)
+                            //{
+                            //    foreach (var filterText in excFilterTextList)
+                            //    {
+                            //        if (metamesh.Name.EndsWith(filterText))
+                            //        {
+                            //            bHit = false;
+                            //            break;
+                            //        }
+                            //    }
+                            //}
 
                             if (bHit)
                             {
@@ -429,16 +310,16 @@ namespace TpacTool.Lib
 
                     foreach (var package in _loadedPackages)
                     {
-                        var subPack = package.extractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
+                        var subPack = package.ExtractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
                         if (subPack.Items.Count > 0)
                         {
-                            subPack.Save(dirFullName + subPack.File.Name);
-                            subPack.exportMeshNamesToCSV(dirFullName + subPack.File.Name.Replace(".tpac", ".csv"));
+                            string fullName = dirFullName + subPack.File.Name;
+                            subPack.Save(fullName);
+                            subPack.ExportMeshNamesToCSV(fullName.Replace(".tpac", ".csv"));
                         }
                     }
                 }
             }
-
         }
 
         public AssetItem GetAsset(Guid guid)

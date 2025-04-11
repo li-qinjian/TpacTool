@@ -686,6 +686,15 @@ namespace TpacTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BookMark.
+        /// </summary>
+        public static string Model_BookMark {
+            get {
+                return ResourceManager.GetString("Model_BookMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export model to ....
         /// </summary>
         public static string Model_Dialog_SelectExportFile {
