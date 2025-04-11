@@ -13,7 +13,9 @@ namespace TpacTool.Lib
 		[NotNull]
 		public AssetDependence<Material> BillboardMaterial { set; get; }
 
-		public uint UnknownUint1 { set; get; } // always 0
+        public uint version { set; get; }
+
+        public uint UnknownUint1 { set; get; } // always 0
 
 		[NotNull]
 		public string Source { set; get; }
@@ -112,7 +114,7 @@ namespace TpacTool.Lib
 		public override void ReadMetadata(BinaryReader stream, int totalSize)
 		{
 			var pos = stream.BaseStream.Position;
-			var version = stream.ReadUInt32();
+		    version = stream.ReadUInt32();
 			BillboardMaterial = new AssetDependence<Material>(stream.ReadGuid());
 			UnknownUint1 = stream.ReadUInt32();
 			Source = stream.ReadSizedString();
@@ -167,7 +169,8 @@ namespace TpacTool.Lib
 
 		public override void WriteMetadata(BinaryWriter stream)
 		{
-			stream.Write((uint) 2);
+			//stream.Write((uint) 2);
+			stream.Write(version);
 			stream.Write(BillboardMaterial.Guid);
 			stream.Write(UnknownUint1);
 			stream.WriteSizedString(Source);
@@ -200,7 +203,8 @@ namespace TpacTool.Lib
 				stream.Write(tuple.Item2);
 			}
 
-			stream.Write(UnknownUlong2);
+            if (version >= 2)
+                stream.Write(UnknownUlong2);
 		}
 
 		public override void ConsumeDataSegments(AbstractExternalLoader[] externalData)
