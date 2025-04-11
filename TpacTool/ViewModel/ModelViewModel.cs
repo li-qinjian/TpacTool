@@ -326,6 +326,8 @@ namespace TpacTool
                     IsMarked = false;
                     RaisePropertyChanged("IsMarked");
                 }
+
+                MessengerInstance.Send(metamesh.Name, MainViewModel.StatusEvent);
             }
         }
 

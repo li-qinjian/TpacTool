@@ -132,7 +132,10 @@ namespace TpacTool
 
 			public override bool Filter(string filterText)
 			{
-				return Name.Contains(filterText);
+				if (filterText == ".")
+					return !Name.EndsWith("_converted") && !Name.EndsWith("_converted_slim");
+
+                return Name.Contains(filterText);
 			}
 
 			/*private bool Equals(Item other)
