@@ -175,8 +175,6 @@ namespace TpacTool
         {
             if (assetFolderDialog.ShowDialog().GetValueOrDefault(false))
             {
-                saveBookMarks();
-
                 BeforeLoad();
                 Load(assetFolderDialog.SelectedPath);
 
@@ -186,8 +184,6 @@ namespace TpacTool
 
         private void OpenRecentFolder(string obj)
         {
-            saveBookMarks();
-
             BeforeLoad();
             int arg = int.Parse(obj);
             var rwd = Settings.Default.RecentWorkDirs;

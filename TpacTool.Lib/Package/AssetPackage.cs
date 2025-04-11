@@ -123,7 +123,7 @@ namespace TpacTool.Lib
                 System.IO.File.WriteAllLines(csvFilePath, metaMeshs.ToArray());
         }
 
-        public AssetPackage ExtractSubPackage(HashSet<Guid> metaMeshGuids, HashSet<Guid> depMatGuids, HashSet<Guid> depTexGuids)
+        public AssetPackage ExtractSubPackage(HashSet<Guid> metaMeshGuids, HashSet<Guid> depMatGuids, HashSet<Guid> depTexGuids, HashSet<Guid> PhysicsShapeGuids)
         {
             AssetPackage subPack = new AssetPackage(this.Guid);
 
@@ -146,10 +146,10 @@ namespace TpacTool.Lib
                 {
                     subPack.Items.Add(assetItem);
                 }
-                else if (assetItem.Type == PhysicsShape.TYPE_GUID)
+                else if (assetItem.Type == PhysicsShape.TYPE_GUID && PhysicsShapeGuids.Contains(assetItem.Guid))
                 {
                     subPack.Items.Add(assetItem);   // physics meshes of shield.
-                }
+                } 
             }
 
             return subPack;

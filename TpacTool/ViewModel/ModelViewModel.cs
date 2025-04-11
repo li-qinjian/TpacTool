@@ -476,21 +476,18 @@ namespace TpacTool
                 string strWorkDir = Settings.Default.getCurrentWorkDir();
                 string marksCSV = Path.Combine(strWorkDir + "\\bookMarks.csv");
 
-                if (File.Exists(marksCSV))
-                    File.Delete(marksCSV);
-
                 System.IO.File.WriteAllLines(marksCSV, setBookMarks.ToArray());
             }
         }
 
         public static void loadBookMarks()
         {
-            setBookMarks.Clear();
-
             string strWorkDir = Settings.Default.getCurrentWorkDir();
             string marksCSV = Path.Combine(strWorkDir + "\\bookMarks.csv");
             if (File.Exists(marksCSV))
             {
+                setBookMarks.Clear();
+
                 var reader = new StreamReader(File.OpenRead(marksCSV));
                 while (!reader.EndOfStream)
                 {

@@ -199,7 +199,7 @@ namespace TpacTool.Lib
 
         public void extractPackageByFilterText()
         {
-            HashSet<string> markedMetameshNames = new HashSet<string>();
+            HashSet<string> markedMetaMeshNames = new HashSet<string>();
             string filterCSV = Path.Combine(WorkDir.FullName + "\\bookMarks.csv");
             if (File.Exists(filterCSV))
             {
@@ -209,15 +209,30 @@ namespace TpacTool.Lib
                     var line = reader.ReadLine();
                     //var values = line.Split(';');
                     if (line != "")
-                        markedMetameshNames.Add(line);
+                        markedMetaMeshNames.Add(line);
                 }
             }
 
-            if (markedMetameshNames.Count > 0)
+            //Keep some PhysicsShapes 
+            HashSet<string> markedPhysicsShapesNames = new HashSet<string>();
+            filterCSV = Path.Combine(WorkDir.FullName + "\\PhysicsShapeFilter.csv");
+            if (File.Exists(filterCSV))
+            {
+                var reader = new StreamReader(File.OpenRead(filterCSV));
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (line != "")
+                        markedPhysicsShapesNames.Add(line);
+                }
+            }
+
+            if (markedMetaMeshNames.Count > 0)
             {
                 HashSet<Guid> metaMeshGuids = new HashSet<Guid>();
                 HashSet<Guid> depMatGuids = new HashSet<Guid>();
                 HashSet<Guid> depTexGuids = new HashSet<Guid>();
+                HashSet<Guid> PhysicsShapeGuids = new HashSet<Guid>();
                 foreach (var item in _loadedAssets)
                 {
                     if (item.Type == Metamesh.TYPE_GUID && item is Metamesh metamesh)
@@ -232,7 +247,7 @@ namespace TpacTool.Lib
                             meshName = Utils.RemoveSuffix(meshName, "_converted_slim");
 
                             bool bHit = false;
-                            foreach (var filterText in markedMetameshNames)
+                            foreach (var filterText in markedMetaMeshNames)
                             {
                                 if (meshName.Equals(filterText))
                                 {
@@ -273,6 +288,23 @@ namespace TpacTool.Lib
                             }
                         }
                     }
+                    else if (item.Type == PhysicsShape.TYPE_GUID)
+                    {
+                        bool bHit = false;
+                        foreach (var filterText in markedPhysicsShapesNames)
+                        {
+                            if (item.Name.StartsWith(filterText))
+                            {
+                                bHit = true;
+                                break;
+                            }
+                        }
+
+                        if (bHit)
+                        {
+                            PhysicsShapeGuids.Add(item.Guid);
+                        }
+                    }
                 }
 
                 if (metaMeshGuids.Count > 0)
@@ -289,7 +321,7 @@ namespace TpacTool.Lib
 
                     foreach (var package in _loadedPackages)
                     {
-                        var subPack = package.ExtractSubPackage(metaMeshGuids, depMatGuids, depTexGuids);
+                        var subPack = package.ExtractSubPackage(metaMeshGuids, depMatGuids, depTexGuids, PhysicsShapeGuids);
                         if (subPack.Items.Count > 0)
                         {
                             string fullName = dirFullName + subPack.File.Name;
