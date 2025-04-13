@@ -249,6 +249,16 @@ namespace TpacTool.Lib
                             bool bHit = false;
                             foreach (var filterText in markedMetaMeshNames)
                             {
+                                if (filterText.EndsWith("*"))
+                                {
+                                    var prefix = Utils.RemoveSuffix(filterText, "*");
+                                    if (meshName.StartsWith(prefix))
+                                    {
+                                        bHit = true;
+                                        break;
+                                    }
+                                }
+
                                 if (meshName.Equals(filterText))
                                 {
                                     bHit = true;

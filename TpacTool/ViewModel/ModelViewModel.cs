@@ -21,7 +21,7 @@ namespace TpacTool
 
         public static readonly Guid UpdateModelListEvent = Guid.NewGuid();
 
-        private static HashSet<string> setBookMarks = new HashSet<string>();
+        private static SortedSet<string> setBookMarks = new SortedSet<string>();
 
         private List<Skeleton> _skeletons = new List<Skeleton>();
 
