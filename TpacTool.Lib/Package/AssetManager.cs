@@ -329,15 +329,24 @@ namespace TpacTool.Lib
                         file.Delete();
                     }
 
+                    AssetPackage mergePack = null;
                     foreach (var package in _loadedPackages)
                     {
                         var subPack = package.ExtractSubPackage(metaMeshGuids, depMatGuids, depTexGuids, PhysicsShapeGuids);
                         if (subPack.Items.Count > 0)
                         {
-                            string fullName = dirFullName + subPack.File.Name;
-                            subPack.Save(fullName);
-                            subPack.ExportMeshNamesToCSV(fullName.Replace(".tpac", ".csv"));
+                            if (mergePack == null)
+                                mergePack = subPack;
+                            else
+                                mergePack.mergePackage(subPack);
                         }
+                    }
+
+                    if (mergePack != null && mergePack.Items.Count > 0)
+                    {
+                        string fullName = dirFullName + mergePack.File.Name;
+                        mergePack.Save(fullName);
+                        mergePack.ExportMeshNamesToCSV(fullName.Replace(".tpac", ".csv"));
                     }
                 }
             }

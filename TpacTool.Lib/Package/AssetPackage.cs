@@ -68,6 +68,14 @@ namespace TpacTool.Lib
             }
         }
 
+        public void mergePackage(AssetPackage other)
+        {
+            foreach (var assetItem in other.Items)
+            {
+                this.Items.Add(assetItem);
+            }
+        }
+
         public AssetPackage([NotNull] string filePath, bool loadHeaderNow = true, bool loadDataNow = false)
         {
             //if (!System.IO.File.Exists(filePath))
